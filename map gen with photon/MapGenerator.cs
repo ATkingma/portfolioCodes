@@ -16,7 +16,6 @@ public class MapGenerator : MonoBehaviour
     public float lacunarity;
     public float noiseScale;
     public float[,] fallOffMap;
-    public float loadAmount;
     public AnimationCurve meshHeightCurve;
     public Vector2 offset;
     public bool autoUpdate;
@@ -32,10 +31,10 @@ public class MapGenerator : MonoBehaviour
     private Mesh terrainMesh;
     private bool generatedEnv;
     
-    public void StartGenerating(int seed)
+
+    public void start()
 	{
-        mapSeed = seed;
-        loadAmount = 0;
+        mapSeed = Random.Range(0.000f,9999.999f;
         GenerateMap();
     }
     public void GenerateMap()

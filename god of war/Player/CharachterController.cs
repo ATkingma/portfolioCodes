@@ -209,7 +209,7 @@ public class CharachterController : MonoBehaviour
     }
 
     //equipmentfunctions
-    public void Equip()
+    public void Equip()//equip anims 
     {
         if (hasWeapon && !isTrowing)
         {
@@ -218,7 +218,7 @@ public class CharachterController : MonoBehaviour
             anim.SetBool("IsEquipt", true);
         }
     }
-    public void Dequip()
+    public void Dequip()//dequip anims 
     {
         if (hasWeapon&&!isTrowing)
         {
@@ -227,7 +227,7 @@ public class CharachterController : MonoBehaviour
             anim.SetBool("isUniQuiping", true);
         }
     }
-    public void EquipmentOn()
+    public void EquipmentOn()//turns equipment off
     {
         unEquipted.SetActive(false);
         axe.SetActive(true);
@@ -235,14 +235,15 @@ public class CharachterController : MonoBehaviour
         visable = true;
         axe.GetComponent<ParticleSystem>().Stop();
     }
-    public void EquipmentOff()
+    public void EquipmentOff()//turns equipment on
     {
         axe.SetActive(false);
         unEquipted.SetActive(true);
         anim.SetBool("isUniQuiping", false);
         visable = false;
     }
-//attack functions
+
+    //attack functions
     public void AttackSpin()//dubbelclick attack (spinning attack)
     {
         AnimReset();
@@ -296,8 +297,9 @@ public class CharachterController : MonoBehaviour
     {
         clickCount = 0;
     }
+
     //curve
-    public Vector3 GetQuadraticCurvePoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
+    public Vector3 GetQuadraticCurvePoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)//creates curve from the 3 vectors
     {
         float u = 1 - t;
         float tt = t * t;

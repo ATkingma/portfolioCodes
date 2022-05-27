@@ -13,11 +13,11 @@ public class PlayerPrefChanger : EditorWindow
         Int = 1,
         String = 2,
     }
-    private static string playerPrefName;
-    private static float float_;
-    private static int int_;
-	private static string string_;
-    private static bool console;
+    private static string _playerPrefName;
+    private static float _float;
+    private static int _int;
+	private static string _string;
+    private static bool _console;
     public TypePref tP;
     [MenuItem("Tools/Prefab Editor")]
     static void MenuItem()
@@ -30,8 +30,8 @@ public class PlayerPrefChanger : EditorWindow
     void OnGUI()
     {
         tP = (TypePref)EditorGUILayout.EnumPopup("Primitive to create:", tP);
-        console = GUI.Toggle(new Rect(550, 90, 100, 30), console, "Console");
-        playerPrefName = EditorGUILayout.TextField("Name of PlayerPref", playerPrefName);
+        _console = GUI.Toggle(new Rect(550, 90, 100, 30), _console, "Console");
+        _playerPrefName = EditorGUILayout.TextField("Name of PlayerPref", _playerPrefName);
         if (GUI.Button(new Rect(10, 90, 200, 25), "Change PlayerPref"))
         {
             InstantiatePrimitive();
@@ -47,7 +47,7 @@ public class PlayerPrefChanger : EditorWindow
         if (GUI.Button(new Rect(10, 120, 600, 30), "Clear all PlayerPrefs"))
         {
             PlayerPrefs.DeleteAll();
-			if (console)
+			if (_console)
 			{
                 Debug.Log("Cleared al PlayerPrefs");
 			}
@@ -55,13 +55,13 @@ public class PlayerPrefChanger : EditorWindow
         switch (tP)
         {
             case TypePref.Float:
-                float_ = EditorGUILayout.FloatField("Float", float_);
+                float_ = EditorGUILayout.FloatField("Float", _float);
                 break;
             case TypePref.Int:
-                int_ = EditorGUILayout.IntField("Int", int_);
+                int_ = EditorGUILayout.IntField("Int", _int);
                 break;
             case TypePref.String:
-                string_ = EditorGUILayout.TextField("String", string_);
+                string_ = EditorGUILayout.TextField("String", _string);
                 break;
             default:
                 Debug.LogError("Unrecognized Option");
@@ -75,24 +75,24 @@ public class PlayerPrefChanger : EditorWindow
         switch (tP)
         {
             case TypePref.Float:
-                PlayerPrefs.SetFloat(playerPrefName, float_);
+                PlayerPrefs.SetFloat(_playerPrefName, float_);
                 if (console)
                 {
-                    Debug.Log("Changed " + playerPrefName + " To " + float_);
+                    Debug.Log("Changed " + _playerPrefName + " To " + _float);
                 }
                 break;
             case TypePref.Int:
-                PlayerPrefs.SetInt(playerPrefName, int_);
+                PlayerPrefs.SetInt(_playerPrefName, int_);
                 if (console)
                 {
-                    Debug.Log("Changed " + playerPrefName + " To " + int_);
+                    Debug.Log("Changed " + _playerPrefName + " To " + _int);
                 }
                 break;
             case TypePref.String:
-                PlayerPrefs.SetString(playerPrefName, string_);
+                PlayerPrefs.SetString(_playerPrefName, string_);
 				if (console)
 				{
-                    Debug.Log("Changed "+playerPrefName+ " To " + string_);
+                    Debug.Log("Changed "+ _playerPrefName + " To " + _string);
 				}
                 break;
             default:

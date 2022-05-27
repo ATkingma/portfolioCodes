@@ -11,11 +11,11 @@ public static class Noise
 		for(int i =0;i< octaves; i++)
 		{
 			float offsetX = prng.Next(-100000,100000)+ offset.x;
-			float offsetY = prng.Next(-100000, 100000)+ offset.y;
+			float offsetY = prng.Next(-100000, 100000)+ offset.y;//gives difrent noisemap everytime
 			octaveOffsets[i] = new Vector2(offsetX, offsetY);
 		}
 
-		if (scale <= 0)
+		if (scale <= 0)//keep this here otherwise if 0 gives out error
 		{
 			scale = 0.0001f;
 		}
@@ -25,23 +25,20 @@ public static class Noise
 		float halfWidth = mapWidth / 2f;
 		float halfHeight = mapHeight / 2f;
 
-		for (int y = 0; y < mapHeight; y++)
+		for (int y = 0; y < mapHeight; y++)//y==mapheight
 		{
-			for (int x = 0; x < mapWidth; x++)
+			for (int x = 0; x < mapWidth; x++)//x==mapwidth
 			{
 				float amplitudes = 1;
 				float frequency = 1;
 				float noiseHeight = 0;
 				for (int i = 0; i < octaves; i++)
 				{
-					float sampleX = (x-halfWidth) / scale*frequency + octaveOffsets[i].x;
+					float sampleX = (x - halfWidth) / scale*frequency + octaveOffsets[i].x;///halfwidth keeps it centerd
 					float sampleY = (y - halfHeight) / scale*frequency + octaveOffsets[i].y;
 
-					float perlinValue = Mathf.PerlinNoise(sampleX, sampleY)*2-1;
-					noiseHeight += perlinValue * amplitudes;
-
-					amplitudes *= presistance;
-					frequency *= lacunarity;
+					float perlinValue = Mathf.PerlinNoise(sampleX, sampleY)*2-1;//creates noisemap
+					noiseHeight += perlinValue * amplitudes;//gives noisemap
 				}
 				if (noiseHeight > maxNoiseHeight)
 				{
@@ -54,13 +51,13 @@ public static class Noise
 				noiseMap[x, y] = noiseHeight;
 			}
 		}
-		for (int y = 0; y < mapHeight; y++)
+		for (int y = 0; y < mapHeight; y++)//normiles noisemap
 		{
 			for (int x = 0; x < mapWidth; x++)
 			{
 				noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
 			}
 		}
-				return noiseMap;
+		return noiseMap;
 	}
 }

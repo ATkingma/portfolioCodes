@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class MapGenerator : MonoBehaviour
@@ -43,8 +44,6 @@ public class MapGenerator : MonoBehaviour
         terrainMesh = terrainObject.GetComponent<MeshFilter>().mesh;
         fallOffMap = FalloffGenerator.GenerateFalloffMap(chuckSize);
         float[,] noisemap = Noise.GenerateNoiseMap(chuckSize, chuckSize, mapSeed, noiseScale, ocataves, presitance, lacunarity, offset);
-
-        Color[] collorMap = new Color[chuckSize * chuckSize];
         for (int y = 0; y < chuckSize; y++)
         {
             for (int x = 0; x < chuckSize; x++)
@@ -109,7 +108,6 @@ public class MapGenerator : MonoBehaviour
 		{
             envSpawn.StartGenerating();
             envSpawn.AddGrass();
-
         }
     }
 }

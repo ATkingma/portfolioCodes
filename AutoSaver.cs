@@ -9,8 +9,9 @@ public class AutoSaver : EditorWindow
 {
     public static float timeBetweenSaves = 300;
     public static bool console;
-    private static double nextSave;
-    private static int autoSaveLabel = 1;
+
+    private static double _nextSave;
+    private static int _autoSaveLabel = 1;
 
     [MenuItem("Tools/AutoSaver")]
     static void Init()
@@ -29,7 +30,7 @@ public class AutoSaver : EditorWindow
 
         timeBetweenSaves = EditorGUILayout.FloatField("Time Between Saves", timeBetweenSaves);
         console = GUI.Toggle(new Rect(200, 20, 100, 30), console, "Console");
-        double timeToSave = nextSave - EditorApplication.timeSinceStartup;
+        double timeToSave = _nextSave - EditorApplication.timeSinceStartup;
 
         EditorGUI.LabelField(new Rect(10, 30, 80, 20), "Next Save:");
         EditorGUI.LabelField(new Rect(80, 30, 80, 20), timeToSave.ToString("N1") + " secs");
@@ -42,7 +43,7 @@ public class AutoSaver : EditorWindow
             }
         }
         this.Repaint();
-        if (EditorApplication.timeSinceStartup > nextSave)
+        if (EditorApplication.timeSinceStartup > _nextSave)
         {
             Save();
         }
@@ -65,8 +66,8 @@ public class AutoSaver : EditorWindow
     {
         if (!EditorApplication.isPlaying)
         {
-            autoSaveLabel = autoSaveLabel + 1;
-            nextSave = EditorApplication.timeSinceStartup + timeBetweenSaves;
+            _autoSaveLabel = _autoSaveLabel + 1;
+            _nextSave = EditorApplication.timeSinceStartup + timeBetweenSaves;
             _ = EditorApplication.SaveScene();
             AssetDatabase.SaveAssets();
             if (console)

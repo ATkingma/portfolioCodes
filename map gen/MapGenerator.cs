@@ -1,12 +1,10 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     // public
     public Gradient gradient;
-    const int chuckSize = 241;
     [Range(0, 6)]
     public int editorPrevieuwLOD;
     public int ocataves;
@@ -19,31 +17,41 @@ public class MapGenerator : MonoBehaviour
     public float[,] fallOffMap;
     public AnimationCurve meshHeightCurve;
     public Vector2 offset;
-    public bool autoUpdate;
     public bool useFallOffs;
     public bool generateEnviroment;
     public bool flatShading;
     public GameObject terrainObject;
-    public MeshCollider meshCol;
-    public EnviromentSpawner envSpawn;
-    private Color[] colors;
+
+
+    //private
     private float minTerrainheight;
     private float maxTerrainheight;
-    private Mesh terrainMesh;
-    private bool generatedEnv;
-    
+    const int chuckSize = 241;
 
-    public void start()
-	{
-        mapSeed = Random.Range(0.000f,9999.999f;
+    private void Start()
+    {
+        if (mapSeed == 0) {
+            mapSeed = Random.Range(0, 99999);
+		}
+
         GenerateMap();
     }
-    public void GenerateMap()
+
+	private void Update()
+	{
+
+        mapSeed = Random.Range(0, 99999);
+        GenerateMap();
+		
+    }
+
+	public void GenerateMap()
     {
         Random.InitState(mapSeed);//seed
-        terrainMesh = terrainObject.GetComponent<MeshFilter>().mesh;
         fallOffMap = FalloffGenerator.GenerateFalloffMap(chuckSize);
         float[,] noisemap = Noise.GenerateNoiseMap(chuckSize, chuckSize, mapSeed, noiseScale, ocataves, presitance, lacunarity, offset);
+
+        Color[] collorMap = new Color[chuckSize * chuckSize];
         for (int y = 0; y < chuckSize; y++)
         {
             for (int x = 0; x < chuckSize; x++)
@@ -58,22 +66,13 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+
         MapDisplay display = FindObjectOfType<MapDisplay>();
         display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noisemap, meshHeightMultiplier, meshHeightCurve, editorPrevieuwLOD, flatShading,GetComponent<MapGenerator>()), TextureGenerator.TextureFromColourMap(collorMap, chuckSize, chuckSize));
 
-        Invoke("ColorMap", 1);
+        ColorMap();
     }
-    private void OnValidate()
-    {
-        if (lacunarity < 1)
-        {
-            lacunarity = 1;
-        }
-        if (ocataves < 0)
-        {
-            ocataves = 0;
-        }
-    }
+
     private void SetMinMaxHeights(float noiseHeight)
     {
         // Set min and max height of map for color gradient
@@ -82,6 +81,7 @@ public class MapGenerator : MonoBehaviour
         if (noiseHeight < minTerrainheight)
             minTerrainheight = noiseHeight;
     }
+
     public void ColorMap()
     {
 		Mesh mesh = terrainObject.GetComponent<MeshFilter>().mesh;
@@ -95,19 +95,5 @@ public class MapGenerator : MonoBehaviour
             new WaitForSeconds(0.001f);
         }
         mesh.colors = colors;
-		if (!generatedEnv)
-		{
-            Invoke("StartEnvSpawner", 1);
-            generatedEnv = true;
-
-        }
-    }
-    public void StartEnvSpawner()
-	{
-		if (generateEnviroment)
-		{
-            envSpawn.StartGenerating();
-            envSpawn.AddGrass();
-        }
     }
 }

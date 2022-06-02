@@ -17,8 +17,10 @@ public static class FalloffGenerator
 				map[i, j] = Evaluate(value);
 			}
 		}
+
 		return map;
 	}
+
 	static float Evaluate(float value)
 	{
 		float a = 3;

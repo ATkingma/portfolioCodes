@@ -62,24 +62,28 @@ public class MeshData
 		triangles = new int[(meshWidth - 1) * (meshHeight - 1) * 6];
 		borderTriangles = new int[24 * meshWidth];
 	}
+
 	public void AddTriangle(int a, int b, int c) {
 		if (a < 0 || b < 0 || c < 0) {
 			outOfMeshTriangles [outOfMeshTriangleIndex] = a;
 			outOfMeshTriangles [outOfMeshTriangleIndex + 1] = b;
 			outOfMeshTriangles [outOfMeshTriangleIndex + 2] = c;
 			outOfMeshTriangleIndex += 3;
-		} else {
+		} 
+		else {
 			triangles [triangleIndex] = a;
 			triangles [triangleIndex + 1] = b;
 			triangles [triangleIndex + 2] = c;
 			triangleIndex += 3;
 		}
 	}
+
 	Vector3[] CalculateNormals()
 	{
 
 		Vector3[] vertexNormals = new Vector3[vertices.Length];
 		int triangleCount = triangles.Length / 3;
+
 		for (int i = 0; i < triangleCount; i++)
 		{
 			int normalTriangleIndex = i * 3;
@@ -92,7 +96,9 @@ public class MeshData
 			vertexNormals[vertexIndexB] += triangleNormal;
 			vertexNormals[vertexIndexC] += triangleNormal;
 		}
+
 		int borderTriangleCount = borderTriangles.Length/3;
+
 		for (int i = 0; i < borderTriangleCount; i++)
 		{
 			int normalTriangleIndex = i * 3;
@@ -122,7 +128,6 @@ public class MeshData
 		}
 
 		return vertexNormals;
-
 	}
 
 	Vector3 SurfaceNormalFromIndices(int indexA, int indexB, int indexC)
@@ -150,6 +155,7 @@ public class MeshData
 		vertices = flatShadedVertices;
 		uvs = flatShadedUvs;
 	}
+
 	public void ProcessMesh(bool flatshading)
 	{
 		if (flatshading)
@@ -161,10 +167,12 @@ public class MeshData
 			BakeNormals();
 		}
 	}
+
 	void BakeNormals()
 	{
 		bakedNormals = CalculateNormals();
 	}
+
 	public Mesh CreateMesh()
 	{
 		Mesh mesh = new Mesh();
@@ -174,5 +182,4 @@ public class MeshData
 		mesh.RecalculateNormals();
 		return mesh;
 	}
-
 }

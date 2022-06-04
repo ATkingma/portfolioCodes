@@ -6,19 +6,19 @@ public class MapGenerator : MonoBehaviour
     // public
     public Gradient gradient;
     [Range(0, 6)]
-    public int editorPrevieuwLOD;
-    public int ocataves;
+    public int editorPreviewLOD;
+    public int octaves;
     public int mapSeed;
     [Range(0, 1)]
-    public float presitance;
+    public float persistance;
     public float meshHeightMultiplier;
-    public float lacunarity;
+    public float lacunary;
     public float noiseScale;
     public float[,] fallOffMap;
     public AnimationCurve meshHeightCurve;
     public Vector2 offset;
     public bool useFallOffs;
-    public bool generateEnviroment;
+    public bool generateEnvironment;
     public bool flatShading;
     public GameObject terrainObject;
 
@@ -49,9 +49,9 @@ public class MapGenerator : MonoBehaviour
     {
         Random.InitState(mapSeed);//seed
         fallOffMap = FalloffGenerator.GenerateFalloffMap(chuckSize);
-        float[,] noisemap = Noise.GenerateNoiseMap(chuckSize, chuckSize, mapSeed, noiseScale, ocataves, presitance, lacunarity, offset);
+        float[,] noisemap = Noise.GenerateNoiseMap(chuckSize, chuckSize, mapSeed, noiseScale, octaves, persistance, lacunary, offset);
 
-        Color[] collorMap = new Color[chuckSize * chuckSize];
+        Color[] colorMap = new Color[chuckSize * chuckSize];
         for (int y = 0; y < chuckSize; y++)
         {
             for (int x = 0; x < chuckSize; x++)
@@ -68,7 +68,7 @@ public class MapGenerator : MonoBehaviour
         }
 
         MapDisplay display = FindObjectOfType<MapDisplay>();
-        display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noisemap, meshHeightMultiplier, meshHeightCurve, editorPrevieuwLOD, flatShading,GetComponent<MapGenerator>()), TextureGenerator.TextureFromColourMap(collorMap, chuckSize, chuckSize));
+        display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noisemap, meshHeightMultiplier, meshHeightCurve, editorPreviewLOD, flatShading,GetComponent<MapGenerator>()), TextureGenerator.TextureFromColourMap(colorMap, chuckSize, chuckSize));
 
         ColorMap();
     }

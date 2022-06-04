@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeshGenerator : MonoBehaviour
 {
-	public static MeshData GenerateTerrainMesh(float[,] heightMap, float heightMultiplier, AnimationCurve heightCurve, int levelOfDetail,bool flatshading,MapGenerator mg)
+	public static MeshData GenerateTerrainMesh(float[,] heightMap, float heightMultiplier, AnimationCurve heightCurve, int levelOfDetail,bool flatShading,MapGenerator mapGenerator)
 	{
 		int width = heightMap.GetLength(0);
 		int height = heightMap.GetLength(1);
@@ -34,8 +34,8 @@ public class MeshGenerator : MonoBehaviour
 				vertexIndex++;
 			}
 		}
-		mg.ColorMap();
-		meshData.ProcessMesh(flatshading);
+		mapGenerator.ColorMap();
+		meshData.ProcessMesh(flatShading);
 		return meshData;
 
 	}
@@ -156,9 +156,9 @@ public class MeshData
 		uvs = flatShadedUvs;
 	}
 
-	public void ProcessMesh(bool flatshading)
+	public void ProcessMesh(bool flatShading)
 	{
-		if (flatshading)
+		if (flatShading)
 		{
 			FlatShading();
 		}

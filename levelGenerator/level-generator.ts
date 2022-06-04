@@ -203,7 +203,6 @@ export class  LevelGenerator extends Behavior {
         }
       }
     }
-    
   }
 }
 //#endregion

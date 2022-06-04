@@ -4,14 +4,14 @@ import { Attribute, AttributeType, Behavior } from "som-engine/script";
 import { EntityUtils } from "som-engine/utils/entity-utils";
 import { TemplateUtils } from "som-engine/utils/template-utils";
 import { chunkEnvironment } from "./chunk-Environment";
-import { MapObserver } from "./mapObserver";
+import { LevelGenerator } from "./level-generator";
 import { SkyboxChanger } from "./Skybox-Changer";
 
 export class LevelManager extends Behavior {
   private _skyboxChanger: SkyboxChanger;
   private _level: number;
   private _environments: chunkEnvironment[];
-  public mapObserver: MapObserver;
+  public levelGenerator: LevelGenerator;
   postConstruct() {
     super.postConstruct();
     this.startCoroutine(this.loadScene());
@@ -38,11 +38,11 @@ export class LevelManager extends Behavior {
     }
 
     this._skyboxChanger.setSkyBox(environment.skybox);
-    const newObserver = TemplateUtils.instantiate(environment.Observer,this.entity,new Vec3(0, 0, 0));
-    this.mapObserver = EntityUtils.getScript(newObserver, MapObserver);
-    newObserver.setEulerAngles(environment.observerRotation);
+    const newLevelGenerator = TemplateUtils.instantiate(environment.levelGenerator,this.entity,new Vec3(0, 0, 0));
+    this.levelGenerator = EntityUtils.getScript(newLevelGenerator, LevelGenerator);
+    levelGenerator.setEulerAngles(environment.generatorRotation);
 
-    this.mapObserver.startGeneratingChunks();
+    this.levelGenerator.startGeneratingChunks();
     if (environment.usesFog) {
       this.app.scene.fog = FOG_LINEAR;
       this.app.scene.fogColor = environment.fogColor;

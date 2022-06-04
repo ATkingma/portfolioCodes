@@ -3,8 +3,8 @@ import { Attribute, AttributeType, Behavior } from "som-engine/script";
 
 export class ChunkEnvironment extends Behavior {
   //attributes
-  public observerRotation: Vec3;
-  public Observer: Asset;
+  public generatorRotation: Vec3;
+  public levelGenerator: Asset;
   public skybox: Asset;
   public minLevels: number;
   public maxLevels: number;
@@ -14,10 +14,10 @@ export class ChunkEnvironment extends Behavior {
   public backgroundMusic: Asset;
 }
 ChunkEnvironment.initialize("ChunkEnvironment", [
-  new Attribute("observerRotation", {
+  new Attribute("generatorRotation", {
     type: AttributeType.vec3,
   }),
-  new Attribute("Observer", {
+  new Attribute("levelGenerator", {
     type: AttributeType.asset,
   }),
   new Attribute("skybox", {

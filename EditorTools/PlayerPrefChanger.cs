@@ -13,23 +13,27 @@ public class PlayerPrefChanger : EditorWindow
         Int = 1,
         String = 2,
     }
+
     private static string _playerPrefName;
     private static float _float;
     private static int _int;
 	private static string _string;
     private static bool _console;
-    public TypePref tP;
+
+    public TypePref typePref;
+
     [MenuItem("Tools/Prefab Editor")]
     static void MenuItem()
     {
         PlayerPrefChanger window = (PlayerPrefChanger)GetWindowWithRect(
-          typeof(PlayerPrefChanger), new Rect(0, 0, 160, 60));
+        typeof(PlayerPrefChanger), new Rect(0, 0, 160, 60));
         window.Show();
     }
+
     #region UI
     void OnGUI()
     {
-        tP = (TypePref)EditorGUILayout.EnumPopup("Primitive to create:", tP);
+        typePref = (TypePref)EditorGUILayout.EnumPopup("Primitive to create:", typePref);
         _console = GUI.Toggle(new Rect(550, 90, 100, 30), _console, "Console");
         _playerPrefName = EditorGUILayout.TextField("Name of PlayerPref", _playerPrefName);
         if (GUI.Button(new Rect(10, 90, 200, 25), "Change PlayerPref"))
@@ -42,7 +46,7 @@ public class PlayerPrefChanger : EditorWindow
             int_ = 0;
             string_ = null;
 			playerPrefName = null;
-            Debug.Log("Resetted Values");
+            Debug.Log("reset Values");
         }
         if (GUI.Button(new Rect(10, 120, 600, 30), "Clear all PlayerPrefs"))
         {
@@ -52,7 +56,7 @@ public class PlayerPrefChanger : EditorWindow
                 Debug.Log("Cleared al PlayerPrefs");
 			}
         }
-        switch (tP)
+        switch (typePref)
         {
             case TypePref.Float:
                 float_ = EditorGUILayout.FloatField("Float", _float);
@@ -72,7 +76,7 @@ public class PlayerPrefChanger : EditorWindow
 	#region save pref
 	void InstantiatePrimitive()
     {
-        switch (tP)
+        switch (typePref)
         {
             case TypePref.Float:
                 PlayerPrefs.SetFloat(_playerPrefName, float_);

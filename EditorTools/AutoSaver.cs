@@ -25,12 +25,13 @@ public class AutoSaver : EditorWindow
     [System.Obsolete]
     void OnGUI()
     {
+        double timeToSave = _nextSave - EditorApplication.timeSinceStartup;
+
         EditorGUI.LabelField(new Rect(10, 10, 80, 30), "Save Each:");
         EditorGUI.LabelField(new Rect(80, 10, 80, 30), timeBetweenSaves + " secs");
 
         timeBetweenSaves = EditorGUILayout.FloatField("Time Between Saves", timeBetweenSaves);
         console = GUI.Toggle(new Rect(200, 20, 100, 30), console, "Console");
-        double timeToSave = _nextSave - EditorApplication.timeSinceStartup;
 
         EditorGUI.LabelField(new Rect(10, 30, 80, 20), "Next Save:");
         EditorGUI.LabelField(new Rect(80, 30, 80, 20), timeToSave.ToString("N1") + " secs");
@@ -49,6 +50,7 @@ public class AutoSaver : EditorWindow
         }
     }
     #endregion
+    
     #region autosave
     [System.Obsolete]
     static AutoSaver()
@@ -61,6 +63,7 @@ public class AutoSaver : EditorWindow
             }
         };
     }
+
     [System.Obsolete]
     public static void Save()//saves
     {
